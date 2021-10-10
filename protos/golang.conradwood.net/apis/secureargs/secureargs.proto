@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package secureargs;
+option java_package = "net.conradwood.golang.apis.secureargs";
+import "golang.conradwood.net/apis/common/common.proto";
+
+message GetArgsRequest {
+  uint64 RepositoryID = 1;
+}
+message ArgsResponse {
+  map<string, string> Args = 1; // Arguments and values by name
+}
+message SetArgRequest {
+  uint64 RepositoryID = 1;
+  string Name = 2;
+  string Value = 3;
+}
+
+// not very normalized database....
+message Arg {
+  uint64 ID = 1;
+  // string Repository = 2; // obsolete, use ID instead
+  string Name = 3;
+  string Value = 4;
+  uint64 RepositoryID = 5;
+}
+
+// access allowed on by privileged services (autodeployer)
+service SecureArgsService {
+  // get all arguments for a given repository
+  rpc GetArgs(GetArgsRequest) returns (ArgsResponse);
+  // set an arg
+  rpc SetArg(SetArgRequest) returns (common.Void);
+}
