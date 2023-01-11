@@ -8,7 +8,6 @@ import (
 	//	"golang.conradwood.net/apis/common"
 	pb "golang.conradwood.net/apis/secureargs"
 	"golang.conradwood.net/go-easyops/authremote"
-	"golang.conradwood.net/go-easyops/tokens"
 	"golang.conradwood.net/go-easyops/utils"
 	"os"
 )
@@ -37,7 +36,7 @@ func main() {
 		View()
 		os.Exit(0)
 	}
-	ctx := tokens.ContextWithToken()
+	ctx := authremote.Context()
 	ctx = authremote.Context()
 	err := Set(ctx, *repo, *argname, parseValue())
 	utils.Bail("failed to set arg", err)

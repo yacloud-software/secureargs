@@ -1,10 +1,10 @@
 package main
 
 import (
+    "golang.conradwood.net/go-easyops/authremote"
 	"fmt"
 	dm "golang.conradwood.net/apis/deploymonkey"
 	sa "golang.conradwood.net/apis/secureargs"
-	"golang.conradwood.net/go-easyops/tokens"
 	"golang.conradwood.net/go-easyops/utils"
 	//	"gopkg.in/yaml.v2"
 	"bytes"
@@ -63,7 +63,7 @@ func migrateFile(filename string) error {
 
 // finds all args that need to be migrated (and fills 'replaced' array)
 func parseFile(filename string) error {
-	ctx := tokens.ContextWithToken()
+	ctx := authremote.Context()
 	fmt.Printf("File: %s\n", filename)
 	r, err := utils.ReadFile(filename)
 	if err != nil {
@@ -155,7 +155,7 @@ func (r *replaceValue) varName() string {
 }
 
 func createSecArg(r *replaceValue) error {
-	ctx := tokens.ContextWithToken()
+	ctx := authremote.Context()
 	sar := &sa.SetArgRequest{
 		RepositoryID: r.repositoryid,
 		Name:         r.key,

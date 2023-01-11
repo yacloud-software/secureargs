@@ -8,7 +8,6 @@ import (
 	pm "golang.conradwood.net/apis/postgresmgr"
 	sa "golang.conradwood.net/apis/secureargs"
 	"golang.conradwood.net/go-easyops/authremote"
-	"golang.conradwood.net/go-easyops/tokens"
 	"golang.conradwood.net/go-easyops/utils"
 	"strings"
 )
@@ -24,7 +23,7 @@ func Compromised() {
 }
 func checkFile(filename string) error {
 	fmt.Printf("Checking args in %s\n", filename)
-	ctx := tokens.ContextWithToken()
+	ctx := authremote.Context()
 	fmt.Printf("File: %s\n", filename)
 	r, err := utils.ReadFile(filename)
 	if err != nil {
@@ -86,7 +85,7 @@ func (m *Changer) migrateValue(key, value string) error {
 }
 
 func (m *Changer) change(secArgName string, backend func(ctx context.Context, old_value string) (string, error)) error {
-	ctx := tokens.ContextWithToken()
+	ctx := authremote.Context()
 	secname, current_value, err := m.getSecureArg(secArgName)
 	if err != nil {
 		return err
@@ -117,7 +116,7 @@ func (m *Changer) change(secArgName string, backend func(ctx context.Context, ol
 
 // getArg is privileged, so this can only be run by root
 func (m *Changer) getSecureArg(saname string) (string, string, error) {
-	ctx := tokens.ContextWithToken()
+	ctx := authremote.Context()
 	gar := &sa.GetArgsRequest{RepositoryID: m.repoid}
 	resp, err := sa.GetSecureArgsClient().GetArgs(ctx, gar)
 	if err != nil {
