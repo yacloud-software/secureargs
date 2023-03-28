@@ -1,8 +1,15 @@
 // client create: SecureArgsServiceClient
+/*
+  Created by /home/cnw/devel/go/go-tools/src/golang.conradwood.net/gotools/protoc-gen-cnw/protoc-gen-cnw.go
+*/
+
 /* geninfo:
    filename  : protos/golang.conradwood.net/apis/secureargs/secureargs.proto
    gopackage : golang.conradwood.net/apis/secureargs
    importname: ai_0
+   clientfunc: GetSecureArgsService
+   serverfunc: NewSecureArgsService
+   lookupfunc: SecureArgsServiceLookupID
    varname   : client_SecureArgsServiceClient_0
    clientname: SecureArgsServiceClient
    servername: SecureArgsServiceServer
@@ -33,7 +40,7 @@ func GetSecureArgsClient() SecureArgsServiceClient {
        return client_SecureArgsServiceClient_0
     }
 
-    client_SecureArgsServiceClient_0 = NewSecureArgsServiceClient(client.Connect("secureargs.SecureArgsService"))
+    client_SecureArgsServiceClient_0 = NewSecureArgsServiceClient(client.Connect(SecureArgsServiceLookupID()))
     lock_SecureArgsServiceClient_0.Unlock()
     return client_SecureArgsServiceClient_0
 }
@@ -49,8 +56,9 @@ func GetSecureArgsServiceClient() SecureArgsServiceClient {
        return client_SecureArgsServiceClient_0
     }
 
-    client_SecureArgsServiceClient_0 = NewSecureArgsServiceClient(client.Connect("secureargs.SecureArgsService"))
+    client_SecureArgsServiceClient_0 = NewSecureArgsServiceClient(client.Connect(SecureArgsServiceLookupID()))
     lock_SecureArgsServiceClient_0.Unlock()
     return client_SecureArgsServiceClient_0
 }
 
+func SecureArgsServiceLookupID() string { return "secureargs.SecureArgsService" } // returns the ID suitable for lookup in the registry. treat as opaque, subject to change.
