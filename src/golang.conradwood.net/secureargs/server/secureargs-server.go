@@ -50,7 +50,7 @@ func main() {
 
 func (e *echoServer) SetArg(ctx context.Context, req *pb.SetArgRequest) (*common.Void, error) {
 	su := auth.GetService(ctx)
-	if su != nil && su.ID == "3539" {
+	if su != nil && su.ID == auth.GetServiceIDByName("repobuilder.RepoBuilder") {
 		fmt.Printf("Repobuilder is setting arg %s\n", req.Name)
 	} else {
 		err := needAuthorisation(ctx)
