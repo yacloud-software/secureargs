@@ -1,6 +1,6 @@
 // client create: SecureArgsServiceClient
 /*
-  Created by /srv/home/cnw/devel/go/go-tools/src/golang.conradwood.net/gotools/protoc-gen-cnw/protoc-gen-cnw.go
+  Created by /home/cnw/devel/go/yatools/src/golang.yacloud.eu/yatools/protoc-gen-cnw/protoc-gen-cnw.go
 */
 
 /* geninfo:
@@ -13,7 +13,7 @@
    varname   : client_SecureArgsServiceClient_0
    clientname: SecureArgsServiceClient
    servername: SecureArgsServiceServer
-   gscvname  : secureargs.SecureArgsService
+   gsvcname  : secureargs.SecureArgsService
    lockname  : lock_SecureArgsServiceClient_0
    activename: active_SecureArgsServiceClient_0
 */
@@ -62,3 +62,7 @@ func GetSecureArgsServiceClient() SecureArgsServiceClient {
 }
 
 func SecureArgsServiceLookupID() string { return "secureargs.SecureArgsService" } // returns the ID suitable for lookup in the registry. treat as opaque, subject to change.
+
+func init() {
+   client.RegisterDependency("secureargs.SecureArgsService")
+}
