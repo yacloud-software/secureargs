@@ -6,15 +6,17 @@ option java_package = "net.conradwood.golang.apis.secureargs";
 import "golang.conradwood.net/apis/common/common.proto";
 
 message GetArgsRequest {
-  uint64 RepositoryID = 1;
+  uint64 RepositoryID = 1; // deprecated
+  uint64 ArtefactID=2;
 }
 message ArgsResponse {
   map<string, string> Args = 1; // Arguments and values by name
 }
 message SetArgRequest {
-  uint64 RepositoryID = 1;
+  uint64 RepositoryID = 1; // deprecated
   string Name = 2;
   string Value = 3;
+  uint64 ArtefactID=4;
 }
 
 // not very normalized database....
@@ -23,7 +25,8 @@ message Arg {
   // string Repository = 2; // obsolete, use ID instead
   string Name = 3;
   string Value = 4;
-  uint64 RepositoryID = 5;
+  uint64 RepositoryID = 5; // deprecated
+  uint64 ArtefactID=6;
 }
 
 // access allowed on by privileged services (autodeployer)
