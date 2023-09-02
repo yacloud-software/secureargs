@@ -14,7 +14,7 @@ import (
 
 var (
 	debug       = flag.Bool("debug", false, "debug information")
-	repo        = flag.Uint64("repositoryid", 0, "repository to set args for")
+	afid        = flag.Uint64("artefactid", 0, "artefactid to set args for")
 	argname     = flag.String("name", "", "name of argument to set")
 	argvalue    = flag.String("value", "", "value of argument to set")
 	migrate     = flag.Bool("migrate", false, "migrate a service to secargs")
@@ -38,7 +38,7 @@ func main() {
 	}
 	ctx := authremote.Context()
 	ctx = authremote.Context()
-	err := Set(ctx, *repo, *argname, parseValue())
+	err := Set(ctx, *afid, *argname, parseValue())
 	utils.Bail("failed to set arg", err)
 	fmt.Printf("Argument set.\n")
 
@@ -57,7 +57,7 @@ func parseValue() string {
 func View() {
 	ctx := authremote.Context()
 	svc := pb.GetSecureArgsServiceClient()
-	args, err := svc.GetArgs(ctx, &pb.GetArgsRequest{RepositoryID: repoid()})
+	args, err := svc.GetArgs(ctx, &pb.GetArgsRequest{ArtefactID: *afid})
 	utils.Bail("failed to get args", err)
 	for k, v := range args.Args {
 		fmt.Printf("%s: %s\n", k, v)
@@ -65,16 +65,13 @@ func View() {
 	fmt.Printf("Done")
 }
 
-func Set(ctx context.Context, repo uint64, name string, value string) error {
+func Set(ctx context.Context, artefactid uint64, name string, value string) error {
 	svc := pb.GetSecureArgsServiceClient()
 	req := &pb.SetArgRequest{
-		RepositoryID: repoid(),
-		Name:         name,
-		Value:        value,
+		ArtefactID: artefactid,
+		Name:       name,
+		Value:      value,
 	}
 	_, err := svc.SetArg(ctx, req)
 	return err
-}
-func repoid() uint64 {
-	return *repo
 }

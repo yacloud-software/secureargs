@@ -1,10 +1,10 @@
 package main
 
 import (
-    "golang.conradwood.net/go-easyops/authremote"
 	"fmt"
 	dm "golang.conradwood.net/apis/deploymonkey"
 	sa "golang.conradwood.net/apis/secureargs"
+	"golang.conradwood.net/go-easyops/authremote"
 	"golang.conradwood.net/go-easyops/utils"
 	//	"gopkg.in/yaml.v2"
 	"bytes"
@@ -17,9 +17,9 @@ var (
 )
 
 /*
- we find various "known sensitive" args in the deploy.yaml files, for example dbpw and token.
- they are then replaced with ${SECURE-XXX} tags (so the autodeplyer resolves them)
- identical parameter name/value pairs in the same repository receive the same SECURE-XXX tag
+we find various "known sensitive" args in the deploy.yaml files, for example dbpw and token.
+they are then replaced with ${SECURE-XXX} tags (so the autodeplyer resolves them)
+identical parameter name/value pairs in the same repository receive the same SECURE-XXX tag
 */
 func Migrate() {
 	fmt.Printf("Migrating...\n")
@@ -74,14 +74,8 @@ func parseFile(filename string) error {
 	if err != nil {
 		return err
 	}
-	or := uint64(0)
 	for _, gd := range pcr.GroupDef {
 		for _, a := range gd.Applications {
-			repo := a.RepositoryID
-			if or != 0 && or != repo {
-				panic("cannot deal with deployment yaml files with two repos")
-			}
-			fmt.Printf("Repository: %d\n", repo)
 			fmt.Printf("    Binary: %s\n", filepath.Base(a.Binary))
 			for _, arg := range a.Args {
 				if strings.Contains(arg, "${SECURE") {
@@ -94,7 +88,7 @@ func parseFile(filename string) error {
 				k, v := splitArg(arg)
 				if k == "token" || k == "dbpw" || strings.Contains(k, "private") || strings.Contains(k, "assw") {
 					fmt.Printf("      Arg: %s = \"%s\"\n", k, v)
-					rpl := findReplacer(repo, k)
+					rpl := findReplacer(k)
 					if rpl != nil {
 						if rpl.value != v {
 							panic(fmt.Sprintf("key %s has two values", k))
@@ -102,10 +96,10 @@ func parseFile(filename string) error {
 					}
 					if rpl == nil {
 						rpl = &replaceValue{
-							repositoryid: repo,
-							key:          strings.ToUpper(k),
-							value:        v,
-							arg:          k}
+							artefactid: *afid,
+							key:        strings.ToUpper(k),
+							value:      v,
+							arg:        k}
 						replaced = append(replaced, rpl)
 					}
 				}
@@ -113,7 +107,7 @@ func parseFile(filename string) error {
 		}
 	}
 	for _, r := range replaced {
-		fmt.Printf("repo %d: %s=%s -> %s=%s\n", r.repositoryid, r.arg, r.value, r.arg, r.key)
+		fmt.Printf("artefact %d: %s=%s -> %s=%s\n", r.artefactid, r.arg, r.value, r.arg, r.key)
 	}
 	return nil
 }
@@ -136,15 +130,15 @@ func splitArg(n string) (string, string) {
 
 /********************************* replace a line *********************/
 type replaceValue struct {
-	key          string // "TOKEN1"
-	arg          string // "token"
-	value        string // "foobar"
-	repositoryid uint64
+	key        string // "TOKEN1"
+	arg        string // "token"
+	value      string // "foobar"
+	artefactid uint64
 }
 
-func findReplacer(repo uint64, arg string) *replaceValue {
+func findReplacer(arg string) *replaceValue {
 	for _, r := range replaced {
-		if r.arg == arg && repo == r.repositoryid {
+		if r.arg == arg {
 			return r
 		}
 	}
@@ -157,9 +151,9 @@ func (r *replaceValue) varName() string {
 func createSecArg(r *replaceValue) error {
 	ctx := authremote.Context()
 	sar := &sa.SetArgRequest{
-		RepositoryID: r.repositoryid,
-		Name:         r.key,
-		Value:        r.value,
+		ArtefactID: r.artefactid,
+		Name:       r.key,
+		Value:      r.value,
 	}
 	_, err := sa.GetSecureArgsClient().SetArg(ctx, sar)
 	if err != nil {

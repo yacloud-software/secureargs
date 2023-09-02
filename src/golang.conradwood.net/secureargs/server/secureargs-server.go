@@ -9,11 +9,15 @@ import (
 	"golang.conradwood.net/go-easyops/auth"
 	"golang.conradwood.net/go-easyops/errors"
 	"golang.conradwood.net/go-easyops/server"
-	"golang.conradwood.net/go-easyops/sql"
 	"golang.conradwood.net/go-easyops/utils"
 	"golang.conradwood.net/secureargs/db"
 	"google.golang.org/grpc"
 	"os"
+)
+
+const (
+	// eventually, this must be set to false, when all services are migrated
+	ALLOW_REPOSITORY_ID = true
 )
 
 var (
@@ -27,9 +31,8 @@ type echoServer struct {
 func main() {
 	flag.Parse()
 	fmt.Printf("Starting SecureArgsServiceServer...\n")
-	psql, err := sql.Open()
-	utils.Bail("cannot open sql", err)
-	argstore = db.NewDBArg(psql)
+	var err error
+	argstore = db.DefaultDBArg()
 	sd := server.NewServerDef()
 	sd.Port = *port
 	sd.Register = server.Register(
@@ -64,7 +67,12 @@ func (e *echoServer) SetArg(ctx context.Context, req *pb.SetArgRequest) (*common
 	if req.Value == "" {
 		return nil, errors.InvalidArgs(ctx, "missing argument value", "missing argument value")
 	}
-	if req.RepositoryID == 0 {
+	if !ALLOW_REPOSITORY_ID {
+		if req.RepositoryID != 0 && req.ArtefactID == 0 {
+			return nil, errors.InvalidArgs(ctx, "repositoryid obsolete, artefactid required", "repositoryid obsolete, artefactid required")
+		}
+	}
+	if req.RepositoryID == 0 && req.ArtefactID == 0 {
 		return nil, errors.InvalidArgs(ctx, "missing argument repository", "missing argument repository")
 	}
 
@@ -87,6 +95,7 @@ func (e *echoServer) SetArg(ctx context.Context, req *pb.SetArgRequest) (*common
 			RepositoryID: req.RepositoryID,
 			Name:         req.Name,
 			Value:        req.Value,
+			ArtefactID:   req.ArtefactID,
 		}
 		_, err = argstore.Save(ctx, dbarg)
 	}
@@ -96,19 +105,42 @@ func (e *echoServer) SetArg(ctx context.Context, req *pb.SetArgRequest) (*common
 	return &common.Void{}, nil
 }
 func (e *echoServer) GetArgs(ctx context.Context, req *pb.GetArgsRequest) (*pb.ArgsResponse, error) {
-
 	err := needAuthorisation(ctx)
 	if err != nil {
 		return nil, err
 	}
-	if req.RepositoryID == 0 {
+	if !ALLOW_REPOSITORY_ID {
+		if req.RepositoryID != 0 && req.ArtefactID == 0 {
+			return nil, errors.InvalidArgs(ctx, "repositoryid obsolete, artefactid required", "repositoryid obsolete, artefactid required")
+		}
+	}
+	if req.RepositoryID == 0 && req.ArtefactID == 0 {
 		return nil, errors.InvalidArgs(ctx, "missing repository", "missing repository")
 	}
-	fmt.Printf("Getting args for repository \"%d\"\n", req.RepositoryID)
-	rps, err := argstore.ByRepositoryID(ctx, req.RepositoryID)
-	if err != nil {
-		return nil, err
+	var rps []*pb.Arg
+
+	// we can get args for both, artefactid and repositoryid in one request
+
+	if req.ArtefactID != 0 {
+		// retrieve for artefactid
+		fmt.Printf("Getting args for artefact \"%d\"\n", req.ArtefactID)
+		t_rps, err := argstore.ByArtefactID(ctx, req.ArtefactID)
+		if err != nil {
+			return nil, err
+		}
+		rps = append(rps, t_rps...)
 	}
+
+	if req.RepositoryID != 0 {
+		// retrieve for repositoryid
+		fmt.Printf("Getting args for repository \"%d\"\n", req.RepositoryID)
+		t_rps, err := argstore.ByRepositoryID(ctx, req.RepositoryID)
+		if err != nil {
+			return nil, err
+		}
+		rps = append(rps, t_rps...)
+	}
+
 	res := &pb.ArgsResponse{
 		Args: make(map[string]string),
 	}
