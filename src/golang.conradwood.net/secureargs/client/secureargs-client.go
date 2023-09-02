@@ -24,6 +24,10 @@ var (
 
 func main() {
 	flag.Parse()
+	if *afid == 0 {
+		fmt.Printf("-artefactid is required\n")
+		os.Exit(10)
+	}
 	if *compromised {
 		Compromised()
 		os.Exit(0)
