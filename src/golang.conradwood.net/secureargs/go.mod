@@ -8,8 +8,7 @@ require (
 	golang.conradwood.net/apis/deploymonkey v1.1.2503
 	golang.conradwood.net/apis/postgresmgr v1.1.2491
 	golang.conradwood.net/apis/secureargs v1.1.1492
-	golang.conradwood.net/go-easyops v0.1.19207
-	golang.org/x/net v0.14.0
+	golang.conradwood.net/go-easyops v0.1.19481
 	google.golang.org/grpc v1.57.0
 )
 
@@ -33,6 +32,7 @@ require (
 	golang.conradwood.net/apis/objectstore v1.1.2503 // indirect
 	golang.conradwood.net/apis/registry v1.1.2503 // indirect
 	golang.conradwood.net/apis/rpcinterceptor v1.1.2495 // indirect
+	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
 	golang.yacloud.eu/apis/session v1.1.2503 // indirect
