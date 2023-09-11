@@ -158,7 +158,7 @@ func needAuthorisation(ctx context.Context) error {
 	if s == nil {
 		return errors.Unauthenticated(ctx, "access denied")
 	}
-	if s.ID != "18" {
+	if s.ID != auth.GetServiceIDByName("autodeployer.AutoDeployer") {
 		return errors.AccessDenied(ctx, "access denied for service %s [%s]", auth.Description(s), s.ID)
 	}
 	return nil
