@@ -17,8 +17,11 @@ func Migrate() error {
 		return err
 	}
 	var xerr error
+	to_update := 0
+	updated := 0
 	for _, arg := range t_rps {
 		if arg.ArtefactID == 0 {
+			to_update++
 			fmt.Printf("Arg #%03d: repo %d, artefactid %d\n", arg.ID, arg.RepositoryID, arg.ArtefactID)
 			afid, err := get_artefact_id(arg.RepositoryID)
 			if err != nil {
@@ -33,9 +36,10 @@ func Migrate() error {
 				return err
 			}
 			fmt.Printf("   Set artefactid to %d\n", arg.ArtefactID)
+			updated++
 		}
 	}
-
+	fmt.Printf("needed to update: %d, actually updated %d\n", to_update, updated)
 	return xerr
 }
 
