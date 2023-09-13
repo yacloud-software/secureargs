@@ -23,12 +23,14 @@ require (
 	github.com/prometheus/client_model v0.4.0 // indirect
 	github.com/prometheus/common v0.44.0 // indirect
 	github.com/prometheus/procfs v0.11.1 // indirect
+	golang.conradwood.net/apis/artefact v1.1.2566 // indirect
 	golang.conradwood.net/apis/autodeployer v1.1.2503 // indirect
 	golang.conradwood.net/apis/commondeploy v1.1.2503 // indirect
 	golang.conradwood.net/apis/echoservice v1.1.2495 // indirect
 	golang.conradwood.net/apis/errorlogger v1.1.2495 // indirect
 	golang.conradwood.net/apis/framework v1.1.2503 // indirect
 	golang.conradwood.net/apis/goeasyops v1.1.2503 // indirect
+	golang.conradwood.net/apis/h2gproxy v1.1.2566 // indirect
 	golang.conradwood.net/apis/objectstore v1.1.2503 // indirect
 	golang.conradwood.net/apis/registry v1.1.2503 // indirect
 	golang.conradwood.net/apis/rpcinterceptor v1.1.2495 // indirect

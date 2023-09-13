@@ -15,14 +15,11 @@ import (
 	"os"
 )
 
-const (
-	// eventually, this must be set to false, when all services are migrated
-	ALLOW_REPOSITORY_ID = true
-)
-
 var (
-	port     = flag.Int("port", 4100, "The grpc server port")
-	argstore *db.DBArg
+	allow_repository_id = flag.Bool("allow_repository_id_only", false, "if true allow access by repositoryid only (use only if using a single system assigning repo id, e.g. gitserver OR gerrit, not both")
+	port                = flag.Int("port", 4100, "The grpc server port")
+	migrate             = flag.Bool("migrate_from_gitserver_repository_id_to_artefactid", false, "if true do a one-off migration")
+	argstore            *db.DBArg
 )
 
 type echoServer struct {
@@ -30,6 +27,10 @@ type echoServer struct {
 
 func main() {
 	flag.Parse()
+	if *migrate {
+		utils.Bail("migration failed", Migrate())
+		os.Exit(0)
+	}
 	fmt.Printf("Starting SecureArgsServiceServer...\n")
 	var err error
 	argstore = db.DefaultDBArg()
@@ -67,7 +68,7 @@ func (e *echoServer) SetArg(ctx context.Context, req *pb.SetArgRequest) (*common
 	if req.Value == "" {
 		return nil, errors.InvalidArgs(ctx, "missing argument value", "missing argument value")
 	}
-	if !ALLOW_REPOSITORY_ID {
+	if !*allow_repository_id {
 		if req.RepositoryID != 0 && req.ArtefactID == 0 {
 			return nil, errors.InvalidArgs(ctx, "repositoryid obsolete, artefactid required", "repositoryid obsolete, artefactid required")
 		}
@@ -76,7 +77,7 @@ func (e *echoServer) SetArg(ctx context.Context, req *pb.SetArgRequest) (*common
 		return nil, errors.InvalidArgs(ctx, "missing argument repository", "missing argument repository")
 	}
 
-	dbs, err := argstore.ByRepositoryID(ctx, req.RepositoryID)
+	dbs, err := argstore.ByArtefactID(ctx, req.ArtefactID)
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +110,7 @@ func (e *echoServer) GetArgs(ctx context.Context, req *pb.GetArgsRequest) (*pb.A
 	if err != nil {
 		return nil, err
 	}
-	if !ALLOW_REPOSITORY_ID {
+	if !*allow_repository_id {
 		if req.RepositoryID != 0 && req.ArtefactID == 0 {
 			return nil, errors.InvalidArgs(ctx, "repositoryid obsolete, artefactid required", "repositoryid obsolete, artefactid required")
 		}
@@ -131,16 +132,17 @@ func (e *echoServer) GetArgs(ctx context.Context, req *pb.GetArgsRequest) (*pb.A
 		rps = append(rps, t_rps...)
 	}
 
-	if req.RepositoryID != 0 {
-		// retrieve for repositoryid
-		fmt.Printf("Getting args for repository \"%d\"\n", req.RepositoryID)
-		t_rps, err := argstore.ByRepositoryID(ctx, req.RepositoryID)
-		if err != nil {
-			return nil, err
+	if *allow_repository_id {
+		if req.RepositoryID != 0 {
+			// retrieve for repositoryid
+			fmt.Printf("Getting args for repository \"%d\"\n", req.RepositoryID)
+			t_rps, err := argstore.ByRepositoryID(ctx, req.RepositoryID)
+			if err != nil {
+				return nil, err
+			}
+			rps = append(rps, t_rps...)
 		}
-		rps = append(rps, t_rps...)
 	}
-
 	res := &pb.ArgsResponse{
 		Args: make(map[string]string),
 	}

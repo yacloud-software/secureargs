@@ -26,6 +26,8 @@ github.com/prometheus/common v0.44.0/go.mod h1:ofAIvZbQ1e/nugmZGz4/qCb9Ap1VoSTIO
 github.com/prometheus/procfs v0.11.1 h1:xRC8Iq1yyca5ypa9n1EZnWZkt7dwcoRPQwX/5gwaUuI=
 github.com/prometheus/procfs v0.11.1/go.mod h1:eesXgaPo1q7lBpVMoMy0ZOFTth9hBn4W/y0/p/ScXhY=
 github.com/rogpeppe/go-internal v1.10.0 h1:TMyTOH3F/DB16zRVcYyreMH6GnZZrwQVAoYjRBZyWFQ=
+golang.conradwood.net/apis/artefact v1.1.2566 h1:cIyKkdHHEc3ZgrYB2F055HeYL5P9OayhNmNuOFVmybg=
+golang.conradwood.net/apis/artefact v1.1.2566/go.mod h1:WRul3hmgxuRcoOAQ9zVCIVhfD/6N+iL3Hklywksx+0I=
 golang.conradwood.net/apis/auth v1.1.2503 h1:+j//E2a4siyzFGkpwhgS8TGfQ39RQpevlqzp4hObvWI=
 golang.conradwood.net/apis/auth v1.1.2503/go.mod h1:5VrJZQbH/QJmNsZn3Ur3RgouPCVaYkFIxOIDCGJdmB0=
 golang.conradwood.net/apis/autodeployer v1.1.2503 h1:xhgTbCq8i4pBXAiOSZ077UXfnDU6pieRm+g1DlU5sNE=
@@ -44,6 +46,8 @@ golang.conradwood.net/apis/framework v1.1.2503 h1:SpqBi75HmRmj48EYjqCl9AXYCWiubT
 golang.conradwood.net/apis/framework v1.1.2503/go.mod h1:a8WDJ4qsCA7rqeUx/s9ehMxxloqGzAlz7+aHIaKcz/A=
 golang.conradwood.net/apis/goeasyops v1.1.2503 h1:vNdg1iEn9uq6w/xit5EFO/UCN6YTLuNQNwuWYJzrG3g=
 golang.conradwood.net/apis/goeasyops v1.1.2503/go.mod h1:uA+AbBCJJ2atLoXONz27w0CacXDfhqsQVTHU9OV41+A=
+golang.conradwood.net/apis/h2gproxy v1.1.2566 h1:KsJ6LAwk4Rs34UUdcfdUAIA7TJOrR7m/rypgbE9/jVA=
+golang.conradwood.net/apis/h2gproxy v1.1.2566/go.mod h1:UnanKiDkPZ6A72AUbY2uqqnV05WUiq+DbLNi5y+DFs0=
 golang.conradwood.net/apis/objectstore v1.1.2503 h1:ylhSoEKjoW5PnNLgLBKmfm19UPbzoNsHAQB8NEGCAgg=
 golang.conradwood.net/apis/objectstore v1.1.2503/go.mod h1:/epSFsxgELu/8CFg9eOInujLDyxmBar5KLX+F/oKweE=
 golang.conradwood.net/apis/postgresmgr v1.1.2491 h1:JLDkv+wkUo0h/iDtDHr0V1oN4Hz5JPhQtRs1/vlSywE=
