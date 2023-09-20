@@ -3,12 +3,13 @@ module golang.conradwood.net/secureargs
 go 1.18
 
 require (
+	golang.conradwood.net/apis/artefact v1.1.2566
 	golang.conradwood.net/apis/auth v1.1.2503
 	golang.conradwood.net/apis/common v1.1.2503
 	golang.conradwood.net/apis/deploymonkey v1.1.2503
 	golang.conradwood.net/apis/postgresmgr v1.1.2491
 	golang.conradwood.net/apis/secureargs v1.1.1492
-	golang.conradwood.net/go-easyops v0.1.19748
+	golang.conradwood.net/go-easyops v0.1.20370
 	google.golang.org/grpc v1.57.0
 )
 
@@ -23,7 +24,6 @@ require (
 	github.com/prometheus/client_model v0.4.0 // indirect
 	github.com/prometheus/common v0.44.0 // indirect
 	github.com/prometheus/procfs v0.11.1 // indirect
-	golang.conradwood.net/apis/artefact v1.1.2566 // indirect
 	golang.conradwood.net/apis/autodeployer v1.1.2503 // indirect
 	golang.conradwood.net/apis/commondeploy v1.1.2503 // indirect
 	golang.conradwood.net/apis/echoservice v1.1.2495 // indirect
@@ -33,7 +33,6 @@ require (
 	golang.conradwood.net/apis/h2gproxy v1.1.2566 // indirect
 	golang.conradwood.net/apis/objectstore v1.1.2503 // indirect
 	golang.conradwood.net/apis/registry v1.1.2503 // indirect
-	golang.conradwood.net/apis/rpcinterceptor v1.1.2495 // indirect
 	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
