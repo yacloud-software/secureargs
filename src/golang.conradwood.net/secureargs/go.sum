@@ -54,8 +54,8 @@ golang.conradwood.net/apis/postgresmgr v1.1.2491 h1:JLDkv+wkUo0h/iDtDHr0V1oN4Hz5
 golang.conradwood.net/apis/postgresmgr v1.1.2491/go.mod h1:hOkFrdsGVrkBux2/nDS1jbTAAYasPS4IXp5DFkwOl5Q=
 golang.conradwood.net/apis/registry v1.1.2503 h1:jMHHCMhp46AgN45C88X0hKVlTIYVzTPrBEaKv5HAabY=
 golang.conradwood.net/apis/registry v1.1.2503/go.mod h1:pnR5o+8d4YoubdlhRkLjVs9qOZBd8orpTuF8WrUGkmI=
-golang.conradwood.net/go-easyops v0.1.20916 h1:0KZ4kSwYPtEaXco/Orih3ORuUsTTMCobO/m0TnymGyk=
-golang.conradwood.net/go-easyops v0.1.20916/go.mod h1:vykvQX58+VTUpdKGqEt715kuISZ+nf0GX1k8oYnwAEU=
+golang.conradwood.net/go-easyops v0.1.20928 h1:tpjY6qyt27f+sBZxkmgJposADklUkvUG2mcZc2tPfL0=
+golang.conradwood.net/go-easyops v0.1.20928/go.mod h1:vykvQX58+VTUpdKGqEt715kuISZ+nf0GX1k8oYnwAEU=
 golang.org/x/net v0.14.0 h1:BONx9s002vGdD9umnlX1Po8vOZmrgH34qlHcD1MfK14=
 golang.org/x/net v0.14.0/go.mod h1:PpSgVXXLK0OxS0F31C1/tv6XNguvCrnXIDrFMspZIUI=
 golang.org/x/sync v0.0.0-20181221193216-37e7f081c4d4/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
