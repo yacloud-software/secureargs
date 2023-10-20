@@ -65,4 +65,5 @@ func SecureArgsServiceLookupID() string { return "secureargs.SecureArgsService" 
 
 func init() {
    client.RegisterDependency("secureargs.SecureArgsService")
+   AddService("secureargs.SecureArgsService")
 }
