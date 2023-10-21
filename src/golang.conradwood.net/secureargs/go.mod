@@ -9,7 +9,7 @@ require (
 	golang.conradwood.net/apis/deploymonkey v1.1.2643
 	golang.conradwood.net/apis/postgresmgr v1.1.2643
 	golang.conradwood.net/apis/secureargs v1.1.1492
-	golang.conradwood.net/go-easyops v0.1.20970
+	golang.conradwood.net/go-easyops v0.1.21154
 	google.golang.org/grpc v1.58.3
 )
 
