@@ -35,7 +35,7 @@ func main() {
 	var err error
 	argstore = db.DefaultDBArg()
 	sd := server.NewServerDef()
-	sd.Port = *port
+	sd.SetPort(*port)
 	sd.Register = server.Register(
 		func(server *grpc.Server) error {
 			e := new(echoServer)
