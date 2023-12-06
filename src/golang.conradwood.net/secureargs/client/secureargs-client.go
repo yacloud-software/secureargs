@@ -79,3 +79,4 @@ func Set(ctx context.Context, artefactid uint64, name string, value string) erro
 	_, err := svc.SetArg(ctx, req)
 	return err
 }
+

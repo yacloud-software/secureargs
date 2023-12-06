@@ -67,3 +67,4 @@ func init() {
    client.RegisterDependency("secureargs.SecureArgsService")
    AddService("secureargs.SecureArgsService")
 }
+

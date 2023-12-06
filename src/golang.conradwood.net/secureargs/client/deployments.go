@@ -56,3 +56,4 @@ func GetDeployMonkeyClient() dm.DeployMonkeyClient {
 	dmc := dm.NewDeployMonkeyClient(client.Connect("deploymonkey.DeployMonkey"))
 	return dmc
 }
+

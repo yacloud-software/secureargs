@@ -36,13 +36,13 @@ func main() {
 	argstore = db.DefaultDBArg()
 	sd := server.NewServerDef()
 	sd.SetPort(*port)
-	sd.Register = server.Register(
+	sd.SetRegister(server.Register(
 		func(server *grpc.Server) error {
 			e := new(echoServer)
 			pb.RegisterSecureArgsServiceServer(server, e)
 			return nil
 		},
-	)
+	))
 	err = server.ServerStartup(sd)
 	utils.Bail("Unable to start server", err)
 	os.Exit(0)
@@ -166,3 +166,4 @@ func needAuthorisation(ctx context.Context) error {
 	return nil
 
 }
+
