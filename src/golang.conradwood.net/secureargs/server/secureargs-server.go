@@ -4,6 +4,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"os"
+
 	"golang.conradwood.net/apis/common"
 	pb "golang.conradwood.net/apis/secureargs"
 	"golang.conradwood.net/go-easyops/auth"
@@ -12,7 +14,6 @@ import (
 	"golang.conradwood.net/go-easyops/utils"
 	"golang.conradwood.net/secureargs/db"
 	"google.golang.org/grpc"
-	"os"
 )
 
 var (
@@ -32,9 +33,12 @@ func main() {
 		os.Exit(0)
 	}
 	fmt.Printf("Starting SecureArgsServiceServer...\n")
+	server.SetHealth(common.Health_STARTING)
+
 	var err error
 	argstore = db.DefaultDBArg()
 	sd := server.NewServerDef()
+	sd.SetOnStartupCallback(server_startup)
 	sd.SetPort(*port)
 	sd.SetRegister(server.Register(
 		func(server *grpc.Server) error {
@@ -46,6 +50,12 @@ func main() {
 	err = server.ServerStartup(sd)
 	utils.Bail("Unable to start server", err)
 	os.Exit(0)
+}
+func server_startup() {
+	server.SetHealth(common.Health_STARTING)
+	server.SetHealth(common.Health_READY)
+	fmt.Printf("Server started\n")
+
 }
 
 /************************************
@@ -166,8 +176,3 @@ func needAuthorisation(ctx context.Context) error {
 	return nil
 
 }
-
-
-
-
-
