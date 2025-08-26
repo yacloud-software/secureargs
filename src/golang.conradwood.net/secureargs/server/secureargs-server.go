@@ -55,7 +55,6 @@ func server_startup() {
 	server.SetHealth(common.Health_STARTING)
 	server.SetHealth(common.Health_READY)
 	fmt.Printf("Server started\n")
-
 }
 
 /************************************
